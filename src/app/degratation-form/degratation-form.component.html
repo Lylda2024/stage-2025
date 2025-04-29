@@ -1,9 +1,21 @@
 <div class="container">
   <h2 class="text-center mb-4">Formulaire de Remontée d'Incidents QoS</h2>
 
+  <!-- Barre de progression -->
+  <div class="progress mb-4" style="height: 10px">
+    <div
+      class="progress-bar bg-orange"
+      role="progressbar"
+      [style.width]="(currentSection / totalSections) * 100 + '%'"
+      [attr.aria-valuenow]="currentSection"
+      aria-valuemin="1"
+      [attr.aria-valuemax]="totalSections"
+    ></div>
+  </div>
+
   <form [formGroup]="incidentForm" (ngSubmit)="onSubmit()">
     <!-- Section 1 : Identification -->
-    <div class="card mb-4">
+    <div class="card mb-4" *ngIf="currentSection === 1">
       <div class="card-header bg-orange text-white">
         <h5>1. Identification de l'Incident</h5>
       </div>
@@ -11,35 +23,51 @@
         <div class="row">
           <!-- Zone -->
           <div class="col-md-6 mb-3">
-            <label class="form-label">Zone *</label>
-            <select
-              class="form-select"
-              formControlName="zone"
-              (change)="loadLocalites()"
-            >
+            <label class="form-label required-field">Zone</label>
+            <select class="form-select" formControlName="zone">
               <option value="">Sélectionner...</option>
               <option *ngFor="let zone of zones" [value]="zone">
                 {{ zone }}
               </option>
             </select>
+            <small
+              *ngIf="
+                incidentForm.get('zone')?.invalid &&
+                incidentForm.get('zone')?.touched
+              "
+              class="text-danger"
+              >Ce champ est obligatoire</small
+            >
           </div>
 
           <!-- Localité -->
           <div class="col-md-6 mb-3">
-            <label class="form-label">Localité *</label>
-            <select class="form-select" formControlName="localite">
+            <label class="form-label required-field">Localité</label>
+            <select
+              class="form-select"
+              formControlName="localite"
+              [disabled]="!incidentForm.get('zone')?.value"
+            >
               <option value="">Sélectionner...</option>
               <option *ngFor="let loc of localites" [value]="loc">
                 {{ loc }}
               </option>
             </select>
+            <small
+              *ngIf="
+                incidentForm.get('localite')?.invalid &&
+                incidentForm.get('localite')?.touched
+              "
+              class="text-danger"
+              >Ce champ est obligatoire</small
+            >
           </div>
         </div>
 
         <!-- Type d'anomalie -->
         <div class="row">
           <div class="col-md-6 mb-3">
-            <label class="form-label">Type d'Anomalie *</label>
+            <label class="form-label required-field">Type d'Anomalie</label>
             <select class="form-select" formControlName="typeAnomalie">
               <option value="">Sélectionner...</option>
               <option value="Dégradation Voix & Data">
@@ -51,11 +79,19 @@
               <option value="RACINE">Problème RACINE</option>
               <option value="Zone non couverte">Zone non couverte</option>
             </select>
+            <small
+              *ngIf="
+                incidentForm.get('typeAnomalie')?.invalid &&
+                incidentForm.get('typeAnomalie')?.touched
+              "
+              class="text-danger"
+              >Ce champ est obligatoire</small
+            >
           </div>
 
           <!-- Priorité -->
           <div class="col-md-6 mb-3">
-            <label class="form-label">Priorité *</label>
+            <label class="form-label required-field">Priorité</label>
             <select class="form-select" formControlName="priorite">
               <option value="">Sélectionner...</option>
               <option value="P0 - Top Priorité">P0 - Top Priorité</option>
@@ -64,24 +100,42 @@
               </option>
               <option value="P2 - Faible Priorité">P2 - Faible Priorité</option>
             </select>
+            <small
+              *ngIf="
+                incidentForm.get('priorite')?.invalid &&
+                incidentForm.get('priorite')?.touched
+              "
+              class="text-danger"
+              >Ce champ est obligatoire</small
+            >
           </div>
         </div>
 
         <!-- Détails -->
         <div class="mb-3">
-          <label class="form-label">Détails de l'Anomalie *</label>
+          <label class="form-label required-field">Détails de l'Anomalie</label>
           <textarea
             class="form-control"
             formControlName="details"
             rows="3"
             placeholder="Décrire précisément le problème..."
           ></textarea>
+          <small
+            *ngIf="incidentForm.get('details')?.errors?.['required'] && incidentForm.get('details')?.touched"
+            class="text-danger"
+            >Ce champ est obligatoire</small
+          >
+          <small
+            *ngIf="incidentForm.get('details')?.errors?.['minlength'] && incidentForm.get('details')?.touched"
+            class="text-danger"
+            >Minimum 10 caractères requis</small
+          >
         </div>
       </div>
     </div>
 
     <!-- Section 2 : Contacts -->
-    <div class="card mb-4">
+    <div class="card mb-4" *ngIf="currentSection === 2">
       <div class="card-header bg-orange text-white">
         <h5>2. Contacts</h5>
       </div>
@@ -89,30 +143,48 @@
         <div class="row">
           <!-- Contact Témoin -->
           <div class="col-md-6 mb-3">
-            <label class="form-label">Contact Témoin *</label>
+            <label class="form-label required-field">Contact Témoin</label>
             <input
               type="text"
               class="form-control"
               formControlName="contactTemoin"
               placeholder="Nom et numéro"
             />
+            <small
+              *ngIf="
+                incidentForm.get('contactTemoin')?.invalid &&
+                incidentForm.get('contactTemoin')?.touched
+              "
+              class="text-danger"
+              >Ce champ est obligatoire</small
+            >
           </div>
 
           <!-- Responsable AJS -->
           <div class="col-md-6 mb-3">
-            <label class="form-label">Responsable AJS *</label>
+            <label class="form-label required-field">Responsable AJS</label>
             <input
               type="text"
               class="form-control"
               formControlName="responsableAJS"
               placeholder="Nom et numéro"
             />
+            <small
+              *ngIf="
+                incidentForm.get('responsableAJS')?.invalid &&
+                incidentForm.get('responsableAJS')?.touched
+              "
+              class="text-danger"
+              >Ce champ est obligatoire</small
+            >
           </div>
         </div>
 
         <!-- Antenne OCI -->
         <div class="mb-3">
-          <label class="form-label">Présence d'antenne OCI *</label>
+          <label class="form-label required-field"
+            >Présence d'antenne OCI</label
+          >
           <div class="form-check">
             <input
               class="form-check-input"
@@ -133,12 +205,20 @@
             />
             <label class="form-check-label" for="antenneNon">Non</label>
           </div>
+          <small
+            *ngIf="
+              incidentForm.get('antenneOCI')?.invalid &&
+              incidentForm.get('antenneOCI')?.touched
+            "
+            class="text-danger"
+            >Ce champ est obligatoire</small
+          >
         </div>
       </div>
     </div>
 
     <!-- Section 3 : Diagnostic -->
-    <div class="card mb-4">
+    <div class="card mb-4" *ngIf="currentSection === 3">
       <div class="card-header bg-orange text-white">
         <h5>3. Diagnostic Initial</h5>
       </div>
@@ -203,15 +283,35 @@
       </div>
     </div>
 
-    <!-- Boutons -->
+    <!-- Boutons de navigation -->
     <div class="text-center">
-      <button
-        type="submit"
-        class="btn btn-orange me-2"
-        [disabled]="incidentForm.invalid"
-      >
-        <i class="fas fa-save me-1"></i> Enregistrer
-      </button>
+      <div *ngIf="currentSection > 1">
+        <button
+          type="button"
+          class="btn btn-outline-secondary me-2"
+          (click)="prevSection()"
+        >
+          <i class="fas fa-arrow-left me-1"></i> Précédent
+        </button>
+      </div>
+
+      <div *ngIf="currentSection < totalSections">
+        <button
+          type="button"
+          class="btn btn-orange me-2"
+          (click)="nextSection()"
+          [disabled]="!isSectionValid(currentSection)"
+        >
+          Suivant <i class="fas fa-arrow-right ms-1"></i>
+        </button>
+      </div>
+
+      <div *ngIf="currentSection === totalSections">
+        <button type="submit" class="btn btn-orange me-2">
+          <i class="fas fa-save me-1"></i> Enregistrer
+        </button>
+      </div>
+
       <button
         type="button"
         class="btn btn-outline-secondary"

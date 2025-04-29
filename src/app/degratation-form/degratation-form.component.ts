@@ -5,6 +5,7 @@ import {
   FormGroup,
   FormBuilder,
   Validators,
+  FormControl,
 } from '@angular/forms';
 import { RouterOutlet } from '@angular/router';
 
@@ -19,6 +20,8 @@ export class DegratationFormComponent implements OnInit {
   incidentForm!: FormGroup;
   zones: string[] = ['Zone 1', 'Zone 2', 'Zone 3'];
   localites: string[] = [];
+  currentSection: number = 1;
+  totalSections: number = 3;
 
   constructor(private fb: FormBuilder) {}
 
@@ -28,10 +31,24 @@ export class DegratationFormComponent implements OnInit {
 
   private initializeForm(): void {
     this.incidentForm = this.fb.group({
+      // Section 1
       zone: ['', Validators.required],
       localite: ['', Validators.required],
-      description: ['', [Validators.required, Validators.minLength(10)]],
-      urgence: ['moyenne', Validators.required],
+      typeAnomalie: ['', Validators.required],
+      priorite: ['', Validators.required],
+      details: ['', [Validators.required, Validators.minLength(10)]],
+
+      // Section 2
+      contactTemoin: ['', Validators.required],
+      responsableAJS: ['', Validators.required],
+      antenneOCI: ['', Validators.required],
+
+      // Section 3
+      siteBTS: [''],
+      porteur: [''],
+      porteur2: [''],
+      actions: [''],
+      ticketOCEANE: [''],
     });
 
     this.incidentForm.get('zone')?.valueChanges.subscribe((zone) => {
@@ -57,14 +74,48 @@ export class DegratationFormComponent implements OnInit {
     }
   }
 
-  loadLocalites(): void {
-    const zone = this.incidentForm.get('zone')?.value;
-    this.updateLocalites(zone);
+  nextSection(): void {
+    if (this.currentSection < this.totalSections) {
+      this.currentSection++;
+    }
+  }
+
+  prevSection(): void {
+    if (this.currentSection > 1) {
+      this.currentSection--;
+    }
+  }
+
+  isSectionValid(sectionNumber: number): boolean {
+    const controls = this.incidentForm.controls;
+
+    switch (sectionNumber) {
+      case 1:
+        return (
+          controls['zone'].valid &&
+          controls['localite'].valid &&
+          controls['typeAnomalie'].valid &&
+          controls['priorite'].valid &&
+          controls['details'].valid
+        );
+      case 2:
+        return (
+          controls['contactTemoin'].valid &&
+          controls['responsableAJS'].valid &&
+          controls['antenneOCI'].valid
+        );
+      default:
+        return true;
+    }
   }
 
   resetForm(): void {
-    this.incidentForm.reset();
+    this.incidentForm.reset({
+      antenneOCI: '',
+      urgence: 'moyenne',
+    });
     this.localites = [];
+    this.currentSection = 1;
   }
 
   onSubmit(): void {
@@ -75,6 +126,9 @@ export class DegratationFormComponent implements OnInit {
     } else {
       console.error('Formulaire invalide');
       this.markAllAsTouched();
+      // Aller à la première section invalide
+      if (!this.isSectionValid(1)) this.currentSection = 1;
+      else if (!this.isSectionValid(2)) this.currentSection = 2;
     }
   }
 

@@ -182,34 +182,3 @@
     background-color: #e66a00;
     color: white;
   }
-  .progress-bar {
-    transition: width 0.3s ease;
-  }
-  
-  .card-header {
-    background-color: #fd7e14;
-    color: white;
-  }
-  
-  .btn-orange {
-    background-color: #fd7e14;
-    color: white;
-    &:hover {
-      background-color: darken(#fd7e14, 10%);
-    }
-  }
-  
-  .disabled-section {
-    opacity: 0.6;
-    pointer-events: none;
-  }
-  
-  .incident-popup {
-    h4 {
-      color: #fd7e14;
-      margin-bottom: 0.5rem;
-    }
-    p {
-      margin-bottom: 0.3rem;
-    }
-  }
