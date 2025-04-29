@@ -1,0 +1,94 @@
+// Structure principale
+.map-page {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    height: calc(100vh - 40px);
+    box-sizing: border-box;
+    background-color: #f5f5f5;
+  
+    @media (max-width: 768px) {
+      flex-direction: column;
+      height: auto;
+      padding: 15px;
+    }
+  }
+  
+  // Section carte
+  .map-section {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    min-height: 500px;
+    z-index: 1; // Important pour le bon rendu de Leaflet
+  
+    @media (max-width: 768px) {
+      min-height: 400px;
+      width: 100%;
+    }
+  }
+  
+  // Conteneur de la carte
+  .map-container {
+    flex: 1;
+    width: 100%;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    background: #f8f9fa;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  
+    // Corrections Leaflet
+    .leaflet-top {
+      z-index: 500;
+    }
+    
+    .leaflet-marker-icon,
+    .leaflet-marker-shadow {
+      display: block !important;
+    }
+  }
+  
+  // Section notifications
+  .notifications-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    min-width: 300px;
+  
+    @media (max-width: 768px) {
+      min-width: auto;
+      margin-top: 20px;
+    }
+  }
+  
+  .notification-card {
+    padding: 16px;
+    border-radius: 8px;
+    background-color: white;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
+  
+    &:hover {
+      transform: translateY(-2px);
+    }
+  }
+  
+  // Styles d'alerte
+  .alert-danger {
+    border-left: 5px solid #dc3545;
+    background-color: rgba(220, 53, 69, 0.05);
+  }
+  
+  .alert-warning {
+    border-left: 5px solid #ffc107;
+    background-color: rgba(255, 193, 7, 0.05);
+  }
+  
+  /* Solution alternative pour les icônes Leaflet */
+  .leaflet-default-icon {
+  
+    background-size: cover;
+  }

@@ -1,0 +1,224 @@
+<div class="container">
+  <h2 class="text-center mb-4">Formulaire de Remontée d'Incidents QoS</h2>
+
+  <form [formGroup]="incidentForm" (ngSubmit)="onSubmit()">
+    <!-- Section 1 : Identification -->
+    <div class="card mb-4">
+      <div class="card-header bg-orange text-white">
+        <h5>1. Identification de l'Incident</h5>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <!-- Zone -->
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Zone *</label>
+            <select
+              class="form-select"
+              formControlName="zone"
+              (change)="loadLocalites()"
+            >
+              <option value="">Sélectionner...</option>
+              <option *ngFor="let zone of zones" [value]="zone">
+                {{ zone }}
+              </option>
+            </select>
+          </div>
+
+          <!-- Localité -->
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Localité *</label>
+            <select class="form-select" formControlName="localite">
+              <option value="">Sélectionner...</option>
+              <option *ngFor="let loc of localites" [value]="loc">
+                {{ loc }}
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Type d'anomalie -->
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Type d'Anomalie *</label>
+            <select class="form-select" formControlName="typeAnomalie">
+              <option value="">Sélectionner...</option>
+              <option value="Dégradation Voix & Data">
+                Dégradation Voix & Data
+              </option>
+              <option value="Coupure fréquente du réseau">
+                Coupure fréquente du réseau
+              </option>
+              <option value="RACINE">Problème RACINE</option>
+              <option value="Zone non couverte">Zone non couverte</option>
+            </select>
+          </div>
+
+          <!-- Priorité -->
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Priorité *</label>
+            <select class="form-select" formControlName="priorite">
+              <option value="">Sélectionner...</option>
+              <option value="P0 - Top Priorité">P0 - Top Priorité</option>
+              <option value="P1 - Moyenne Priorité">
+                P1 - Moyenne Priorité
+              </option>
+              <option value="P2 - Faible Priorité">P2 - Faible Priorité</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Détails -->
+        <div class="mb-3">
+          <label class="form-label">Détails de l'Anomalie *</label>
+          <textarea
+            class="form-control"
+            formControlName="details"
+            rows="3"
+            placeholder="Décrire précisément le problème..."
+          ></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 2 : Contacts -->
+    <div class="card mb-4">
+      <div class="card-header bg-orange text-white">
+        <h5>2. Contacts</h5>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <!-- Contact Témoin -->
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Contact Témoin *</label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="contactTemoin"
+              placeholder="Nom et numéro"
+            />
+          </div>
+
+          <!-- Responsable AJS -->
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Responsable AJS *</label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="responsableAJS"
+              placeholder="Nom et numéro"
+            />
+          </div>
+        </div>
+
+        <!-- Antenne OCI -->
+        <div class="mb-3">
+          <label class="form-label">Présence d'antenne OCI *</label>
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="radio"
+              formControlName="antenneOCI"
+              value="Oui"
+              id="antenneOui"
+            />
+            <label class="form-check-label" for="antenneOui">Oui</label>
+          </div>
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="radio"
+              formControlName="antenneOCI"
+              value="Non"
+              id="antenneNon"
+            />
+            <label class="form-check-label" for="antenneNon">Non</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 3 : Diagnostic -->
+    <div class="card mb-4">
+      <div class="card-header bg-orange text-white">
+        <h5>3. Diagnostic Initial</h5>
+      </div>
+      <div class="card-body">
+        <!-- Site BTS -->
+        <div class="mb-3">
+          <label class="form-label">Site(s) BTS concerné(s)</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="siteBTS"
+            placeholder="Ex: OCI1905_S_GANZRA"
+          />
+        </div>
+
+        <!-- Porteur -->
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Porteur Principal</label>
+            <select class="form-select" formControlName="porteur">
+              <option value="">Sélectionner...</option>
+              <option value="DESIGN">DESIGN</option>
+              <option value="GNOC">GNOC</option>
+              <option value="ENERGIE">ENERGIE</option>
+              <option value="FLM GNOC">FLM GNOC</option>
+              <option value="Observation AJS">Observation AJS</option>
+            </select>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Porteur Secondaire</label>
+            <select class="form-select" formControlName="porteur2">
+              <option value="">Sélectionner...</option>
+              <option value="DESIGN">DESIGN</option>
+              <option value="GNOC">GNOC</option>
+              <option value="ENERGIE">ENERGIE</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="mb-3">
+          <label class="form-label">Actions Recommandées</label>
+          <textarea
+            class="form-control"
+            formControlName="actions"
+            rows="3"
+            placeholder="Ex: Relancer GNOC, vérifier énergie..."
+          ></textarea>
+        </div>
+
+        <!-- Ticket OCEANE -->
+        <div class="mb-3">
+          <label class="form-label">Ticket OCEANE (si existant)</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="ticketOCEANE"
+            placeholder="Ex: 2502J40012"
+          />
+        </div>
+      </div>
+    </div>
+
+    <!-- Boutons -->
+    <div class="text-center">
+      <button
+        type="submit"
+        class="btn btn-orange me-2"
+        [disabled]="incidentForm.invalid"
+      >
+        <i class="fas fa-save me-1"></i> Enregistrer
+      </button>
+      <button
+        type="button"
+        class="btn btn-outline-secondary"
+        (click)="resetForm()"
+      >
+        <i class="fas fa-undo me-1"></i> Réinitialiser
+      </button>
+    </div>
+  </form>
+</div>

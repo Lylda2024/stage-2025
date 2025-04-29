@@ -1,0 +1,111 @@
+<div class="login-page">
+  <!-- Colonne Image -->
+  <div class="login-image-container">
+    <img
+      src="https://img.freepik.com/free-vector/hand-drawn-6g-illustration_52683-118579.jpg?uid=R91286332&ga=GA1.1.1456661959.1733398499&semt=ais_hybrid&w=740"
+      alt="Réseau Orange Côte d'Ivoire"
+      class="login-image"
+    />
+    <div class="image-overlay">
+      <img src="" alt="Logo Orange" class="logo" />
+    </div>
+  </div>
+
+  <!-- Colonne Formulaire -->
+  <div class="login-form-container">
+    <div class="form-wrapper">
+      <div class="form-header">
+        <h2>Connexion</h2>
+        <p>Accédez à votre tableau de bord</p>
+      </div>
+
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <!-- Email -->
+        <div class="form-group">
+          <label for="email">Email professionnel</label>
+          <input
+            type="email"
+            id="email"
+            formControlName="email"
+            placeholder="votre@email.orange.ci"
+            [class.invalid]="
+              loginForm.get('email')?.invalid && loginForm.get('email')?.touched
+            "
+          />
+          <div
+            class="error-message"
+            *ngIf="
+              loginForm.get('email')?.hasError('required') &&
+              loginForm.get('email')?.touched
+            "
+          >
+            Email requis
+          </div>
+          <div
+            class="error-message"
+            *ngIf="
+              loginForm.get('email')?.hasError('email') &&
+              loginForm.get('email')?.touched
+            "
+          >
+            Format email invalide
+          </div>
+        </div>
+
+        <!-- Mot de passe -->
+        <div class="form-group">
+          <label for="password">Mot de passe</label>
+          <div class="password-input">
+            <input
+              [type]="showPassword ? 'text' : 'password'"
+              id="password"
+              formControlName="password"
+              placeholder="••••••••"
+              [class.invalid]="
+                loginForm.get('password')?.invalid &&
+                loginForm.get('password')?.touched
+              "
+            />
+            <button type="button" (click)="togglePasswordVisibility()">
+              <i
+                class="icon"
+                [class.eye]="!showPassword"
+                [class.eye-slash]="showPassword"
+              ></i>
+            </button>
+          </div>
+          <div
+            class="error-message"
+            *ngIf="
+              loginForm.get('password')?.hasError('required') &&
+              loginForm.get('password')?.touched
+            "
+          >
+            Mot de passe requis
+          </div>
+          <div
+            class="error-message"
+            *ngIf="
+              loginForm.get('password')?.hasError('minlength') &&
+              loginForm.get('password')?.touched
+            "
+          >
+            Minimum 8 caractères
+          </div>
+        </div>
+
+        <!-- Bouton submit -->
+        <button type="submit" class="submit-btn" [disabled]="isLoading">
+          <span *ngIf="!isLoading">Se connecter</span>
+          <span *ngIf="isLoading">Connexion en cours...</span>
+        </button>
+
+        <!-- Liens -->
+        <div class="form-footer">
+          <a routerLink="/forgot-password">Mot de passe oublié ?</a>
+          <a routerLink="/register" class="register-link">Créer un compte</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
