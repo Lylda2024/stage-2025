@@ -35,6 +35,7 @@ export class LoginComponent {
   onSubmit() {
     if (this.loginForm.invalid) {
       this.markAllAsTouched();
+      alert('Formulaire invalide');
       return;
     }
 

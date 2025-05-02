@@ -4,6 +4,7 @@ import { DegratationFormComponent } from './degratation-form/degratation-form.co
 import { HeaderComponent } from './header/header.component';
 import { Router, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @Component({
   selector: 'app-root',

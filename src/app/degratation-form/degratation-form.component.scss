@@ -1,9 +1,10 @@
 /* Style global */
 .container {
-    max-width: 500px;
+    max-width: 600px;
     margin: 2rem auto;
     padding: 0 15px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 50vh;
   }
   
   h2 {
@@ -43,6 +44,7 @@
     border: 1px solid #ced4da;
     transition: all 0.3s ease;
     
+    
     &:hover {
       background-color: #f8f9fa;
     }
@@ -81,7 +83,7 @@
   }
   
   .form-control, .form-select {
-    width: 95%;
+    width: 98%;
     padding: 0.75rem 1rem;
     border: 1px solid #ced4da;
     border-radius: 6px;
@@ -95,12 +97,14 @@
   }
   
   textarea.form-control {
+    width: 500px;
     min-height: 100px;
+   
   }
   
   /* Radio buttons */
   .form-check {
-    margin-top: 0.5rem;
+    margin-top: 0.8rem;
     
     .form-check-input {
       margin-top: 0.2rem;
@@ -169,16 +173,67 @@
       flex-direction: column;
     }
   }
-  .progress-bar {
-    transition: width 0.3s ease;
-  }
+ /* Styles pour la barre de progression améliorée */
+.progress-container {
+  position: relative;
+  padding-top: 10px;
+}
+
+.progress-steps {
+  position: relative;
+  display: inline;
+  display: flex;
+  justify-content: space-between;
+
   
-  .btn-orange {
-    background-color: #fd7e14;
-    color: white;
-  }
+}
+
+.step {
+  text-align: center;
+  position: relative;
+  z-index: 1;
   
-  .btn-orange:hover {
-    background-color: #e66a00;
-    color: white;
-  }
+}
+
+.step-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #e0e0e0;
+  color: #888;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  font-weight: bold;
+  border: 2px solid #e0e0e0;
+}
+
+.step-circle.active {
+  background-color: #FF7900;
+  color: white;
+  border-color: #FF7900;
+}
+
+.step-label {
+  font-size: 14px;
+  color: #000000;
+  font-weight: 500;
+}
+
+.step-label.active {
+  color: #FF7900;
+  font-weight: bold;
+}
+
+/* Barre de progression sous les cercles */
+.progress-steps::before {
+  content: '';
+  position: absolute;
+  top: 15px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: #e0e0e0;
+  z-index: 0;
+}

@@ -1,0 +1,11 @@
+<div id="pdf-content" class="preview-container">
+  <h2>Aperçu du formulaire</h2>
+  <p><strong>Nom :</strong> {{ formulaire.nom }}</p>
+  <p><strong>Description :</strong> {{ formulaire.description }}</p>
+  <!-- Affiche tous les champs -->
+  <div *ngIf="photoPreview">
+    <img [src]="photoPreview" alt="photo" width="200" />
+  </div>
+</div>
+
+<button (click)="exportToPDF()">Exporter en PDF</button>

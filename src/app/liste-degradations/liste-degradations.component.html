@@ -1,0 +1,101 @@
+<div class="container mt-4">
+  <div class="">
+    <h4>Liste des Dégradations QoS</h4>
+
+    <!-- Barre de recherche et filtres -->
+    <div class="">
+      <div class="">
+        <div class="input-group">
+          <input
+            type="search"
+            class="form-control"
+            placeholder="Rechercher..."
+            [(ngModel)]="searchTerm"
+            (input)="searchDegradations()"
+          />
+        </div>
+      </div>
+      <div class="">
+        <div class="btn-group" role="group">
+          <button
+            type="button"
+            class="btn btn-outline-secondary"
+            [class.active]="currentFilter === 'Tous'"
+            (click)="filterByStatus('Tous')"
+          >
+            Tous
+          </button>
+          <button
+            type="button"
+            class="btn btn-outline-primary"
+            [class.active]="currentFilter === 'Nouveau'"
+            (click)="filterByStatus('Nouveau')"
+          >
+            Nouveau
+          </button>
+          <button
+            type="button"
+            class="btn btn-outline-warning"
+            [class.active]="currentFilter === 'En cours'"
+            (click)="filterByStatus('En cours')"
+          >
+            En cours
+          </button>
+          <button
+            type="button"
+            class="btn btn-outline-success"
+            [class.active]="currentFilter === 'Résolu'"
+            (click)="filterByStatus('Résolu')"
+          >
+            Résolu
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tableau des dégradations -->
+    <div class="table-responsive">
+      <table class="table table-hover">
+        <thead class="table-light">
+          <tr>
+            <th>ID</th>
+            <th>Zone</th>
+            <th>Localité</th>
+            <th>Type d'Anomalie</th>
+            <th>Priorité</th>
+            <th>Date</th>
+            <th>Statut</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let deg of filteredDegradations">
+            <td>{{ deg.id }}</td>
+            <td>{{ deg.zone }}</td>
+            <td>{{ deg.localite }}</td>
+            <td>{{ deg.typeAnomalie }}</td>
+            <td>{{ deg.priorite }}</td>
+            <td>{{ deg.dateCreation | date : "dd/MM/yyyy" }}</td>
+            <td>
+              <span [class]="getStatusClass(deg.statut)">{{ deg.statut }}</span>
+            </td>
+            <td>
+              <button
+                class="btn btn-sm btn-outline-primary me-2"
+                (click)="editDegradation(deg.id)"
+              >
+                <i class="fas fa-edit"></i> Modifier
+              </button>
+              <button class="btn btn-sm btn-outline-danger">
+                <i class="fas fa-trash"></i>
+              </button>
+            </td>
+          </tr>
+          <tr *ngIf="filteredDegradations.length === 0">
+            <td colspan="8" class="text-center">Aucune dégradation trouvée</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

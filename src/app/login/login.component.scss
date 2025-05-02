@@ -1,18 +1,24 @@
 /* Structure principale */
-.login-page {
-  display: flex;
-  min-height: 100vh;
-  width: 90%;
+*{
   
   margin: 0;
   padding: 0;
+}
+.login-page {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+  justify-content: center;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+ 
 
 
-  /* Colonne Image - Prend maintenant 60% de l'espace */
+  /* Colonne Image  */
   .login-image-container {
     flex: 1.5; /* Augmenté de 1 à 1.5 pour donner plus d'espace à l'image */
     position: relative;
-    background: #000;
     margin: 0;
     padding: 0;
 
@@ -38,7 +44,6 @@
       color: white;
       text-align: center;
       padding: 2rem;
-      background: rgba(0, 0, 0, 0.4);
       margin: 0;
 
       .logo {
@@ -68,14 +73,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background: #f8f9fa;
     padding: 0; /* Suppression du padding */
     margin: 0;
 
     .form-wrapper {
       width: 100%;
       max-width: 400px;
-      background: white;
       border-radius: 0; /* Suppression des coins arrondis */
       box-shadow: none; /* Suppression de l'ombre */
       padding: 2.5rem;
@@ -210,46 +213,7 @@
 }
 
 /* Responsive */
-@media (max-width: 768px) {
-  .login-page {
-    flex-direction: column;
+@media (max-width: 768px) {}
 
-    .login-image-container {
-      height: 200px;
-      flex: none;
 
-      .image-overlay {
-        padding: 1rem;
-        flex-direction: row;
-        align-items: center;
-        justify-content: flex-start;
-        text-align: left;
-        background: rgba(0,0,0,0.6);
-
-        .logo {
-          width: 80px;
-          margin-right: 1rem;
-          margin-bottom: 0;
-        }
-
-        h1 {
-          font-size: 1.3rem;
-          margin-bottom: 0.2rem;
-        }
-
-        p {
-          display: none;
-        }
-      }
-    }
-
-    .login-form-container {
-      padding: 2rem 1rem;
-
-      .form-wrapper {
-        padding: 1.5rem;
-        box-shadow: none;
-      }
-    }
-  }
-}
+    

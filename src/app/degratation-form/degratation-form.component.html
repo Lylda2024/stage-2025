@@ -1,324 +1,357 @@
-<div class="container">
-  <h2 class="text-center mb-4">Formulaire de Remontée d'Incidents QoS</h2>
+<div id="pdf-content">
+  <div class="container">
+    <h2 class="text-center mb-4">Formulaire de Remontée d'Incidents QoS</h2>
 
-  <!-- Barre de progression -->
-  <div class="progress mb-4" style="height: 10px">
-    <div
-      class="progress-bar bg-orange"
-      role="progressbar"
-      [style.width]="(currentSection / totalSections) * 100 + '%'"
-      [attr.aria-valuenow]="currentSection"
-      aria-valuemin="1"
-      [attr.aria-valuemax]="totalSections"
-    ></div>
-  </div>
-
-  <form [formGroup]="incidentForm" (ngSubmit)="onSubmit()">
-    <!-- Section 1 : Identification -->
-    <div class="card mb-4" *ngIf="currentSection === 1">
-      <div class="card-header bg-orange text-white">
-        <h5>1. Identification de l'Incident</h5>
+    <!-- Barre de progression  -->
+    <div class="progress-container mb-4">
+      <!-- Barre de progression principale -->
+      <div class="progress">
+        <div
+          class="progress-bar bg-orange"
+          role="progressbar"
+          [style.width]="(currentSection / totalSections) * 100 + '%'"
+          [attr.aria-valuenow]="currentSection"
+          aria-valuemin="1"
+          [attr.aria-valuemax]="totalSections"
+        ></div>
       </div>
-      <div class="card-body">
-        <div class="row">
-          <!-- Zone -->
-          <div class="col-md-6 mb-3">
-            <label class="form-label required-field">Zone</label>
-            <select class="form-select" formControlName="zone">
-              <option value="">Sélectionner...</option>
-              <option *ngFor="let zone of zones" [value]="zone">
-                {{ zone }}
-              </option>
-            </select>
-            <small
-              *ngIf="
-                incidentForm.get('zone')?.invalid &&
-                incidentForm.get('zone')?.touched
-              "
-              class="text-danger"
-              >Ce champ est obligatoire</small
-            >
-          </div>
 
-          <!-- Localité -->
-          <div class="col-md-6 mb-3">
-            <label class="form-label required-field">Localité</label>
-            <select
-              class="form-select"
-              formControlName="localite"
-              [disabled]="!incidentForm.get('zone')?.value"
-            >
-              <option value="">Sélectionner...</option>
-              <option *ngFor="let loc of localites" [value]="loc">
-                {{ loc }}
-              </option>
-            </select>
-            <small
-              *ngIf="
-                incidentForm.get('localite')?.invalid &&
-                incidentForm.get('localite')?.touched
-              "
-              class="text-danger"
-              >Ce champ est obligatoire</small
-            >
+      <!-- Étapes de progression -->
+      <div class="progress-steps d-flex justify-content-between mt-2">
+        <div
+          *ngFor="let step of [1, 2, 3]; let i = index"
+          class="step"
+          [class.active]="currentSection > i"
+        >
+          <div class="step-circle" [class.active]="currentSection > i">
+            {{ i + 1 }}
           </div>
-        </div>
-
-        <!-- Type d'anomalie -->
-        <div class="row">
-          <div class="col-md-6 mb-3">
-            <label class="form-label required-field">Type d'Anomalie</label>
-            <select class="form-select" formControlName="typeAnomalie">
-              <option value="">Sélectionner...</option>
-              <option value="Dégradation Voix & Data">
-                Dégradation Voix & Data
-              </option>
-              <option value="Coupure fréquente du réseau">
-                Coupure fréquente du réseau
-              </option>
-              <option value="RACINE">Problème RACINE</option>
-              <option value="Zone non couverte">Zone non couverte</option>
-            </select>
-            <small
-              *ngIf="
-                incidentForm.get('typeAnomalie')?.invalid &&
-                incidentForm.get('typeAnomalie')?.touched
-              "
-              class="text-danger"
-              >Ce champ est obligatoire</small
-            >
-          </div>
-
-          <!-- Priorité -->
-          <div class="col-md-6 mb-3">
-            <label class="form-label required-field">Priorité</label>
-            <select class="form-select" formControlName="priorite">
-              <option value="">Sélectionner...</option>
-              <option value="P0 - Top Priorité">P0 - Top Priorité</option>
-              <option value="P1 - Moyenne Priorité">
-                P1 - Moyenne Priorité
-              </option>
-              <option value="P2 - Faible Priorité">P2 - Faible Priorité</option>
-            </select>
-            <small
-              *ngIf="
-                incidentForm.get('priorite')?.invalid &&
-                incidentForm.get('priorite')?.touched
-              "
-              class="text-danger"
-              >Ce champ est obligatoire</small
-            >
-          </div>
-        </div>
-
-        <!-- Détails -->
-        <div class="mb-3">
-          <label class="form-label required-field">Détails de l'Anomalie</label>
-          <textarea
-            class="form-control"
-            formControlName="details"
-            rows="3"
-            placeholder="Décrire précisément le problème..."
-          ></textarea>
-          <small
-            *ngIf="incidentForm.get('details')?.errors?.['required'] && incidentForm.get('details')?.touched"
-            class="text-danger"
-            >Ce champ est obligatoire</small
-          >
-          <small
-            *ngIf="incidentForm.get('details')?.errors?.['minlength'] && incidentForm.get('details')?.touched"
-            class="text-danger"
-            >Minimum 10 caractères requis</small
-          >
+          <div class="step-label mt-1">{{ getStepLabel(i + 1) }}</div>
         </div>
       </div>
     </div>
 
-    <!-- Section 2 : Contacts -->
-    <div class="card mb-4" *ngIf="currentSection === 2">
-      <div class="card-header bg-orange text-white">
-        <h5>2. Contacts</h5>
+    <form [formGroup]="incidentForm" (ngSubmit)="onSubmit()">
+      <!-- Section 1 : Identification -->
+      <div class="card mb-4" *ngIf="currentSection === 1">
+        <div class="card-header bg-orange text-white">
+          <h5>1. Identification de l'Incident</h5>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <!-- Zone -->
+            <div class="col-md-6 mb-3">
+              <label class="form-label required-field">Zone</label>
+              <select class="form-select" formControlName="zone">
+                <option value="">Sélectionner...</option>
+                <option *ngFor="let zone of zones" [value]="zone">
+                  {{ zone }}
+                </option>
+              </select>
+              <small
+                *ngIf="
+                  incidentForm.get('zone')?.invalid &&
+                  incidentForm.get('zone')?.touched
+                "
+                class="text-danger"
+                >Ce champ est obligatoire</small
+              >
+            </div>
+
+            <!-- Localité -->
+            <div class="col-md-6 mb-3">
+              <label class="form-label required-field">Localité</label>
+              <select
+                class="form-select"
+                formControlName="localite"
+                [disabled]="!incidentForm.get('zone')?.value"
+              >
+                <option value="">Sélectionner...</option>
+                <option *ngFor="let loc of localites" [value]="loc">
+                  {{ loc }}
+                </option>
+              </select>
+              <small
+                *ngIf="
+                  incidentForm.get('localite')?.invalid &&
+                  incidentForm.get('localite')?.touched
+                "
+                class="text-danger"
+                >Ce champ est obligatoire</small
+              >
+            </div>
+          </div>
+
+          <!-- Type d'anomalie -->
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label class="form-label required-field">Type d'Anomalie</label>
+              <select class="form-select" formControlName="typeAnomalie">
+                <option value="">Sélectionner...</option>
+                <option value="Dégradation Voix & Data">
+                  Dégradation Voix & Data
+                </option>
+                <option value="Coupure fréquente du réseau">
+                  Coupure fréquente du réseau
+                </option>
+                <option value="RACINE">Problème RACINE</option>
+                <option value="Zone non couverte">Zone non couverte</option>
+              </select>
+              <small
+                *ngIf="
+                  incidentForm.get('typeAnomalie')?.invalid &&
+                  incidentForm.get('typeAnomalie')?.touched
+                "
+                class="text-danger"
+                >Ce champ est obligatoire</small
+              >
+            </div>
+
+            <!-- Priorité -->
+            <div class="col-md-6 mb-3">
+              <label class="form-label required-field">Priorité</label>
+              <select class="form-select" formControlName="priorite">
+                <option value="">Sélectionner...</option>
+                <option value="P0 - Top Priorité">P0 - Top Priorité</option>
+                <option value="P1 - Moyenne Priorité">
+                  P1 - Moyenne Priorité
+                </option>
+                <option value="P2 - Faible Priorité">
+                  P2 - Faible Priorité
+                </option>
+              </select>
+              <small
+                *ngIf="
+                  incidentForm.get('priorite')?.invalid &&
+                  incidentForm.get('priorite')?.touched
+                "
+                class="text-danger"
+                >Ce champ est obligatoire</small
+              >
+            </div>
+          </div>
+
+          <!-- Détails -->
+          <div class="mb-3">
+            <label class="form-label required-field"
+              >Détails de l'Anomalie</label
+            >
+            <textarea
+              class="form-control"
+              formControlName="details"
+              rows="3"
+              placeholder="Décrire précisément le problème..."
+            ></textarea>
+            <small
+              *ngIf="incidentForm.get('details')?.errors?.['required'] && incidentForm.get('details')?.touched"
+              class="text-danger"
+              >Ce champ est obligatoire</small
+            >
+            <small
+              *ngIf="incidentForm.get('details')?.errors?.['minlength'] && incidentForm.get('details')?.touched"
+              class="text-danger"
+              >Minimum 10 caractères requis</small
+            >
+          </div>
+        </div>
       </div>
-      <div class="card-body">
-        <div class="row">
-          <!-- Contact Témoin -->
-          <div class="col-md-6 mb-3">
-            <label class="form-label required-field">Contact Témoin</label>
+
+      <!-- Section 2 : Contacts -->
+      <div class="card mb-4" *ngIf="currentSection === 2">
+        <div class="card-header bg-orange text-white">
+          <h5>2. Contacts</h5>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <!-- Contact Témoin -->
+            <div class="col-md-6 mb-3">
+              <label class="form-label required-field">Contact Témoin</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="contactTemoin"
+                placeholder="Nom et numéro"
+              />
+              <small
+                *ngIf="
+                  incidentForm.get('contactTemoin')?.invalid &&
+                  incidentForm.get('contactTemoin')?.touched
+                "
+                class="text-danger"
+                >Ce champ est obligatoire</small
+              >
+            </div>
+
+            <!-- Responsable AJS -->
+            <div class="col-md-6 mb-3">
+              <label class="form-label required-field">Responsable AJS</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="responsableAJS"
+                placeholder="Nom et numéro"
+              />
+              <small
+                *ngIf="
+                  incidentForm.get('responsableAJS')?.invalid &&
+                  incidentForm.get('responsableAJS')?.touched
+                "
+                class="text-danger"
+                >Ce champ est obligatoire</small
+              >
+            </div>
+          </div>
+
+          <!-- Antenne OCI -->
+          <div class="mb-3">
+            <label class="form-label required-field"
+              >Présence d'antenne OCI</label
+            >
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="radio"
+                formControlName="antenneOCI"
+                value="Oui"
+                id="antenneOui"
+              />
+              <label class="form-check-label" for="antenneOui">Oui</label>
+            </div>
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="radio"
+                formControlName="antenneOCI"
+                value="Non"
+                id="antenneNon"
+              />
+              <label class="form-check-label" for="antenneNon">Non</label>
+            </div>
+            <small
+              *ngIf="
+                incidentForm.get('antenneOCI')?.invalid &&
+                incidentForm.get('antenneOCI')?.touched
+              "
+              class="text-danger"
+              >Ce champ est obligatoire</small
+            >
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 3 : Diagnostic -->
+      <div class="card mb-4" *ngIf="currentSection === 3">
+        <div class="card-header bg-orange text-white">
+          <h5>3. Diagnostic Initial</h5>
+        </div>
+        <div class="card-body">
+          <!-- Site BTS -->
+          <div class="mb-3">
+            <label class="form-label">Site(s) BTS concerné(s)</label>
             <input
               type="text"
               class="form-control"
-              formControlName="contactTemoin"
-              placeholder="Nom et numéro"
+              formControlName="siteBTS"
+              placeholder="Ex: OCI1905_S_GANZRA"
             />
-            <small
-              *ngIf="
-                incidentForm.get('contactTemoin')?.invalid &&
-                incidentForm.get('contactTemoin')?.touched
-              "
-              class="text-danger"
-              >Ce champ est obligatoire</small
-            >
           </div>
 
-          <!-- Responsable AJS -->
-          <div class="col-md-6 mb-3">
-            <label class="form-label required-field">Responsable AJS</label>
+          <!-- Porteur -->
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Porteur Principal</label>
+              <select class="form-select" formControlName="porteur">
+                <option value="">Sélectionner...</option>
+                <option value="DESIGN">DESIGN</option>
+                <option value="GNOC">GNOC</option>
+                <option value="ENERGIE">ENERGIE</option>
+                <option value="FLM GNOC">FLM GNOC</option>
+                <option value="Observation AJS">Observation AJS</option>
+              </select>
+            </div>
+
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Porteur Secondaire</label>
+              <select class="form-select" formControlName="porteur2">
+                <option value="">Sélectionner...</option>
+                <option value="DESIGN">DESIGN</option>
+                <option value="GNOC">GNOC</option>
+                <option value="ENERGIE">ENERGIE</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Actions -->
+          <div class="mb-3">
+            <label class="form-label">Actions Recommandées</label>
+            <textarea
+              class="form-control"
+              formControlName="actions"
+              rows="3"
+              placeholder="Ex: Relancer GNOC, vérifier énergie..."
+            ></textarea>
+          </div>
+
+          <!-- Ticket OCEANE -->
+          <div class="mb-3">
+            <label class="form-label">Ticket OCEANE (si existant)</label>
             <input
               type="text"
               class="form-control"
-              formControlName="responsableAJS"
-              placeholder="Nom et numéro"
+              formControlName="ticketOCEANE"
+              placeholder="Ex: 2502J40012"
             />
-            <small
-              *ngIf="
-                incidentForm.get('responsableAJS')?.invalid &&
-                incidentForm.get('responsableAJS')?.touched
-              "
-              class="text-danger"
-              >Ce champ est obligatoire</small
-            >
           </div>
         </div>
+      </div>
 
-        <!-- Antenne OCI -->
-        <div class="mb-3">
-          <label class="form-label required-field"
-            >Présence d'antenne OCI</label
+      <!-- Boutons de navigation -->
+      <div class="text-center">
+        <div *ngIf="currentSection > 1">
+          <button
+            type="button"
+            class="btn btn-outline-secondary me-2"
+            (click)="prevSection()"
           >
-          <div class="form-check">
-            <input
-              class="form-check-input"
-              type="radio"
-              formControlName="antenneOCI"
-              value="Oui"
-              id="antenneOui"
-            />
-            <label class="form-check-label" for="antenneOui">Oui</label>
-          </div>
-          <div class="form-check">
-            <input
-              class="form-check-input"
-              type="radio"
-              formControlName="antenneOCI"
-              value="Non"
-              id="antenneNon"
-            />
-            <label class="form-check-label" for="antenneNon">Non</label>
-          </div>
-          <small
-            *ngIf="
-              incidentForm.get('antenneOCI')?.invalid &&
-              incidentForm.get('antenneOCI')?.touched
-            "
-            class="text-danger"
-            >Ce champ est obligatoire</small
+            <i class="fas fa-arrow-left me-1"></i> Précédent
+          </button>
+        </div>
+
+        <div *ngIf="currentSection; totalSections">
+          <button
+            type="button"
+            class="btn btn-orange me-2"
+            (click)="nextSection()"
+            [disabled]="!isSectionValid(currentSection)"
           >
-        </div>
-      </div>
-    </div>
-
-    <!-- Section 3 : Diagnostic -->
-    <div class="card mb-4" *ngIf="currentSection === 3">
-      <div class="card-header bg-orange text-white">
-        <h5>3. Diagnostic Initial</h5>
-      </div>
-      <div class="card-body">
-        <!-- Site BTS -->
-        <div class="mb-3">
-          <label class="form-label">Site(s) BTS concerné(s)</label>
-          <input
-            type="text"
-            class="form-control"
-            formControlName="siteBTS"
-            placeholder="Ex: OCI1905_S_GANZRA"
-          />
+            Suivant <i class="fas fa-arrow-right ms-1"></i>
+          </button>
         </div>
 
-        <!-- Porteur -->
-        <div class="row">
-          <div class="col-md-6 mb-3">
-            <label class="form-label">Porteur Principal</label>
-            <select class="form-select" formControlName="porteur">
-              <option value="">Sélectionner...</option>
-              <option value="DESIGN">DESIGN</option>
-              <option value="GNOC">GNOC</option>
-              <option value="ENERGIE">ENERGIE</option>
-              <option value="FLM GNOC">FLM GNOC</option>
-              <option value="Observation AJS">Observation AJS</option>
-            </select>
-          </div>
-
-          <div class="col-md-6 mb-3">
-            <label class="form-label">Porteur Secondaire</label>
-            <select class="form-select" formControlName="porteur2">
-              <option value="">Sélectionner...</option>
-              <option value="DESIGN">DESIGN</option>
-              <option value="GNOC">GNOC</option>
-              <option value="ENERGIE">ENERGIE</option>
-            </select>
-          </div>
+        <div *ngIf="currentSection === totalSections">
+          <button type="submit" class="btn btn-orange me-2">
+            <i class="fas fa-save me-1"></i> Enregistrer
+          </button>
         </div>
 
-        <!-- Actions -->
-        <div class="mb-3">
-          <label class="form-label">Actions Recommandées</label>
-          <textarea
-            class="form-control"
-            formControlName="actions"
-            rows="3"
-            placeholder="Ex: Relancer GNOC, vérifier énergie..."
-          ></textarea>
-        </div>
-
-        <!-- Ticket OCEANE -->
-        <div class="mb-3">
-          <label class="form-label">Ticket OCEANE (si existant)</label>
-          <input
-            type="text"
-            class="form-control"
-            formControlName="ticketOCEANE"
-            placeholder="Ex: 2502J40012"
-          />
-        </div>
-      </div>
-    </div>
-
-    <!-- Boutons de navigation -->
-    <div class="text-center">
-      <div *ngIf="currentSection > 1">
         <button
           type="button"
-          class="btn btn-outline-secondary me-2"
-          (click)="prevSection()"
+          class="btn btn-outline-secondary"
+          (click)="resetForm()"
         >
-          <i class="fas fa-arrow-left me-1"></i> Précédent
+          <i class="fas fa-undo me-1"></i> Réinitialiser
         </button>
       </div>
+    </form>
 
-      <div *ngIf="currentSection < totalSections">
-        <button
-          type="button"
-          class="btn btn-orange me-2"
-          (click)="nextSection()"
-          [disabled]="!isSectionValid(currentSection)"
-        >
-          Suivant <i class="fas fa-arrow-right ms-1"></i>
-        </button>
-      </div>
-
-      <div *ngIf="currentSection === totalSections">
-        <button type="submit" class="btn btn-orange me-2">
-          <i class="fas fa-save me-1"></i> Enregistrer
-        </button>
-      </div>
-
+    <div class="text-center mt-3">
       <button
         type="button"
         class="btn btn-outline-secondary"
-        (click)="resetForm()"
+        (click)="exportToPDF()"
       >
-        <i class="fas fa-undo me-1"></i> Réinitialiser
+        <i class="fas fa-file-pdf me-1"></i> Exporter en PDF
       </button>
     </div>
-  </form>
+  </div>
 </div>
