@@ -1,101 +1,135 @@
-<div class="container mt-4">
-  <div class="">
-    <h4>Liste des Dégradations QoS</h4>
+<div class="container-fluid mt-4">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Liste des Dégradations QoS</mat-card-title>
+    </mat-card-header>
 
-    <!-- Barre de recherche et filtres -->
-    <div class="">
-      <div class="">
-        <div class="input-group">
-          <input
-            type="search"
-            class="form-control"
-            placeholder="Rechercher..."
-            [(ngModel)]="searchTerm"
-            (input)="searchDegradations()"
-          />
+    <mat-card-content>
+      <!-- Barre de recherche -->
+      <div class="row mb-4 g-3"  >
+        <div class="col-md-6">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Rechercher</mat-label>
+            <input
+              matInput
+              [(ngModel)]="searchTerm"
+              (input)="searchDegradations()"
+            />
+            <mat-icon matSuffix>search</mat-icon>
+          </mat-form-field>
+        </div>
+
+        <!-- Filtres -->
+
+        <div class="col-md-6">
+          <mat-button-toggle-group [(value)]="currentFilter">
+            <mat-button-toggle value="Tous" (click)="filterByStatus('Tous')"
+              >Tous</mat-button-toggle
+            >
+            <mat-button-toggle value="Nouveau" class="text-primary"
+              >Nouveau</mat-button-toggle
+            >
+            <mat-button-toggle value="En cours" class="text-warning"
+              >En cours</mat-button-toggle
+            >
+            <mat-button-toggle value="Résolu" class="text-success"
+              >Résolu</mat-button-toggle
+            >
+          </mat-button-toggle-group>
         </div>
       </div>
-      <div class="">
-        <div class="btn-group" role="group">
-          <button
-            type="button"
-            class="btn btn-outline-secondary"
-            [class.active]="currentFilter === 'Tous'"
-            (click)="filterByStatus('Tous')"
-          >
-            Tous
-          </button>
-          <button
-            type="button"
-            class="btn btn-outline-primary"
-            [class.active]="currentFilter === 'Nouveau'"
-            (click)="filterByStatus('Nouveau')"
-          >
-            Nouveau
-          </button>
-          <button
-            type="button"
-            class="btn btn-outline-warning"
-            [class.active]="currentFilter === 'En cours'"
-            (click)="filterByStatus('En cours')"
-          >
-            En cours
-          </button>
-          <button
-            type="button"
-            class="btn btn-outline-success"
-            [class.active]="currentFilter === 'Résolu'"
-            (click)="filterByStatus('Résolu')"
-          >
-            Résolu
-          </button>
-        </div>
-      </div>
-    </div>
 
-    <!-- Tableau des dégradations -->
-    <div class="table-responsive">
-      <table class="table table-hover">
-        <thead class="table-light">
-          <tr>
-            <th>ID</th>
-            <th>Zone</th>
-            <th>Localité</th>
-            <th>Type d'Anomalie</th>
-            <th>Priorité</th>
-            <th>Date</th>
-            <th>Statut</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let deg of filteredDegradations">
-            <td>{{ deg.id }}</td>
-            <td>{{ deg.zone }}</td>
-            <td>{{ deg.localite }}</td>
-            <td>{{ deg.typeAnomalie }}</td>
-            <td>{{ deg.priorite }}</td>
-            <td>{{ deg.dateCreation | date : "dd/MM/yyyy" }}</td>
-            <td>
-              <span [class]="getStatusClass(deg.statut)">{{ deg.statut }}</span>
+      <!-- Tableau -->
+      <div class="table-responsive">
+        <table
+          mat-table
+          [dataSource]="filteredDegradations"
+          class="mat-elevation-z8"
+        >
+          <!-- Colonnes -->
+          <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef>ID</th>
+            <td mat-cell *matCellDef="let deg">{{ deg.id }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="zone">
+            <th mat-header-cell *matHeaderCellDef>Zone</th>
+            <td mat-cell *matCellDef="let deg">{{ deg.zone }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="localite">
+            <th mat-header-cell *matHeaderCellDef>Localité</th>
+            <td mat-cell *matCellDef="let deg">{{ deg.localite }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="typeAnomalie">
+            <th mat-header-cell *matHeaderCellDef>Type d'Anomalie</th>
+            <td mat-cell *matCellDef="let deg">{{ deg.typeAnomalie }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="priorite">
+            <th mat-header-cell *matHeaderCellDef>Priorité</th>
+            <td mat-cell *matCellDef="let deg">
+              <mat-chip [color]="getPriorityColor(deg.priorite)" selected>
+                {{ deg.priorite }}
+              </mat-chip>
             </td>
-            <td>
+          </ng-container>
+
+          <ng-container matColumnDef="dateCreation">
+            <th mat-header-cell *matHeaderCellDef>Date</th>
+            <td mat-cell *matCellDef="let deg">
+              {{ deg.dateCreation | date : "dd/MM/yyyy" }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="statut">
+            <th mat-header-cell *matHeaderCellDef>Statut</th>
+            <td mat-cell *matCellDef="let deg">
+              <mat-chip [color]="getStatusColor(deg.statut)" selected>
+                {{ deg.statut }}
+              </mat-chip>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>Actions</th>
+            <td mat-cell *matCellDef="let deg">
               <button
-                class="btn btn-sm btn-outline-primary me-2"
+                mat-icon-button
+                color="primary"
                 (click)="editDegradation(deg.id)"
               >
-                <i class="fas fa-edit"></i> Modifier
+                <mat-icon>edit</mat-icon>
               </button>
-              <button class="btn btn-sm btn-outline-danger">
-                <i class="fas fa-trash"></i>
+              <button mat-icon-button color="warn">
+                <mat-icon>delete</mat-icon>
               </button>
             </td>
+          </ng-container>
+
+          <!-- En-tête -->
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <!-- Lignes -->
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+          <!-- Aucun résultat -->
+          <tr class="mat-row" *ngIf="filteredDegradations.length === 0">
+            <td class="mat-cell text-center py-4" colspan="7">
+              Aucune dégradation trouvée
+            </td>
           </tr>
-          <tr *ngIf="filteredDegradations.length === 0">
-            <td colspan="8" class="text-center">Aucune dégradation trouvée</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
+        </table>
+      </div>
+
+      <!-- Pagination externe -->
+      <div class="paginator-container">
+        <mat-paginator
+          [pageSizeOptions]="[5, 10, 20]"
+          showFirstLastButtons
+          class="custom-paginator"
+        ></mat-paginator>
+      </div>
+    </mat-card-content>
+  </mat-card>
 </div>

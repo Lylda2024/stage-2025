@@ -1,271 +1,44 @@
-/* Style global du conteneur */
-.container {
-    max-width: 1200px;
-    margin: 2rem auto;
-    padding: 0 15px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    justify-content: center;
-    text-align: center;
-    align-items: center;
-  }
-  
-  /* En-tête de la carte */
-  
-  
-  /* Barre de recherche */
-  .input-group {
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    border-radius: 6px;
-    overflow: hidden;
-    margin-bottom: 20px;
-  }
-  
-  .form-control {
-    border: 1px solid #e0e0e0;
-    padding: 0.75rem 1rem;
-    transition: all 0.3s ease;
-  }
-  
-  .form-control:focus {
-    border-color: #FF7900;
-    box-shadow: 0 0 0 0.2rem rgba(255, 121, 0, 0.25);
-  }
-  
-  /* Boutons de filtre */
-  .btn-group .btn {
-    border-radius: 20px;
-    margin-right: 0.5rem;
-    padding: 0.375rem 1rem;
-    font-size: 0.875rem;
-    transition: all 0.3s ease;
-  }
-  
-  .btn-group .btn.active {
-    background-color: #FF7900;
-    color: white;
-    border-color: #FF7900;
-    box-shadow: 0 2px 5px rgba(255, 121, 0, 0.3);
-  }
-  
-  /* Tableau */
-  .table {
-    margin-top: 1.5rem;
-    border-collapse: separate;
-    border-spacing: 0;
-   
-  }
-  
-  .table thead th {
-    background-color: #f8f9fa;
-    border-bottom: 2px solid #FF7900;
-    font-weight: 600;
-    color: #495057;
-    padding: 1rem;
-  }
-  
-  .table tbody td {
-    padding: 1rem;
-    vertical-align: middle;
-    border-top: 1px solid #f0f0f0;
-  }
-  .table-responsive{
-    display: flex;
-    justify-content: center;
-    text-align: center;
-    align-items: center;
-  }
-  .table-hover tbody tr:hover {
-    background-color: rgba(255, 121, 0, 0.05);
-    transform: translateY(-1px);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-  }
-  
-  /* Badges de statut */
-  .badge {
-    padding: 0.5em 0.75em;
-    border-radius: 50px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-  }
-  
-  .bg-primary {
-    background-color: #3498db !important;
-  }
-  
-  .bg-warning {
-    background-color: #f39c12 !important;
-    color: white !important;
-  }
-  
-  .bg-success {
-    background-color: #2ecc71 !important;
-  }
-  
-  /* Boutons d'action */
-  .btn-outline-primary {
-    color: #FF7900;
-    border-color: #FF7900;
-  }
-  
-  .btn-outline-primary:hover {
-    background-color: #FF7900;
-    color: white;
-  }
-  
-  .btn-outline-danger {
-    color: #e74c3c;
-    border-color: #e74c3c;
-  }
-  
-  .btn-outline-danger:hover {
-    background-color: #e74c3c;
-    color: white;
-  }
-  
-  /* Bouton orange personnalisé */
-  .btn-orange {
-    background-color: #FF7900;
-    color: white;
-    border: none;
-    padding: 0.5rem 1.25rem;
-    border-radius: 50px;
-    transition: all 0.3s ease;
-  }
-  
-  .btn-orange:hover {
-    background-color: #e66a00;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(255, 121, 0, 0.3);
-  }
-  
-  /* Icônes */
-  .fas {
-    margin-right: 0.5rem;
-  }
-  
-  /* Message vide */
-  .text-center {
-    color: #7f8c8d;
-    padding: 2rem;
-  }
+/* Style global du conteneur principal */
+.container-fluid {
+  padding: 0 15px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 
+/* Tableau Material */
+.table-responsive {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+}
 
-  /* Conteneur principal */
-.row.mb-4 {
-    margin-bottom: 2rem !important;
+/* Pagination externe */
+.paginator-container {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.custom-paginator {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+}
+
+/* Ajustement responsive */
+@media (max-width: 768px) {
+  .custom-paginator {
+    width: 100%;
+    padding: 0.5rem;
   }
   
-  /* Barre de recherche - version améliorée */
-  .input-group {
-    border-radius: 30px;
-    overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
-    border: 1px solid #e0e0e0;
+  .col-md-6 {
+    margin-bottom: 1rem;
   }
-  
-  .input-group:focus-within {
-   
-    border-color: #FF7900;
-  }
-  
-  .form-control {
-    border: none;
-    padding: 0.75rem 1.25rem;
-    font-size: 0.95rem;
-  }
-  
-  .form-control:focus {
-    box-shadow: none;
-  }
-  
-  .input-group .btn-outline-secondary {
-    background-color: #f8f9fa;
-    border-left: 1px solid #e0e0e0 !important;
-    padding: 0 1.25rem;
-    color: #6c757d;
-    transition: all 0.3s ease;
-  }
-  
-  .input-group .btn-outline-secondary:hover {
-    background-color: #FF7900;
-    color: white;
-  }
-  
-  /* Boutons de filtre - version améliorée */
-  .btn-group {
-   
-    overflow: hidden;
-  }
-  
-  .btn-group .btn {
-    padding: 0.5rem 1rem;
-    font-size: 0.85rem;
-    font-weight: 500;
-    border-width: 1px;
-    transition: all 0.3s ease;
-  }
-  
-  /* Styles spécifiques pour chaque bouton */
-  .btn-outline-secondary {
-    border-color: #e0e0e0;
-  }
-  
-  .btn-outline-secondary.active {
-    background-color: #6c757d;
-    color: white;
-  }
-  
-  .btn-outline-primary {
-    border-color: #3498db;
-    color: #3498db;
-  }
-  
-  .btn-outline-primary.active {
-    background-color: #3498db;
-    color: white;
-  }
-  
-  .btn-outline-warning {
-    border-color: #f39c12;
-    color: #f39c12;
-  }
-  
-  .btn-outline-warning.active {
-    background-color: #f39c12;
-    color: white;
-  }
-  
-  .btn-outline-success {
-    border-color: #2ecc71;
-    color: #2ecc71;
-  }
-  
-  .btn-outline-success.active {
-    background-color: #2ecc71;
-    color: white;
-  }
-  
-  /* Icônes */
-  .fas.fa-search {
-    font-size: 0.9rem;
-  }
-  
-  /* Responsive */
-  @media (max-width: 768px) {
-    .col-md-6 {
-      margin-bottom: 1rem;
-    }
-    
-    .input-group,
-    .btn-group {
-      width: 100%;
-    }
-    
-    .btn-group .btn {
-      padding: 0.5rem;
-      font-size: 0.8rem;
-    }
-  }
+}

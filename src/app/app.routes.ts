@@ -14,9 +14,7 @@ export const routes: Routes = [
   { path: 'map', component: MapComponent },
   { path: 'aperçu-incident', component: ApercuIncidentComponent },
   { path: 'liste', component: ListeDegradationsComponent },
-
   { path: 'dashboard', component: DashboardComponent },
-  { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: '', redirectTo: '/login', pathMatch: 'full' }, // ou '/dashboard' selon le besoin
   { path: '**', redirectTo: '/login' },
 ];

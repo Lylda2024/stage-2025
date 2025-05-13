@@ -1,7 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { MatCardModule } from '@angular/material/card';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSortModule } from '@angular/material/sort';
 
 interface Degradation {
   id: number;
@@ -16,7 +26,23 @@ interface Degradation {
 @Component({
   selector: 'app-liste-degradations',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    RouterModule,
+    // Material Modules
+    MatCardModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonToggleModule,
+    MatChipsModule,
+    MatIconModule,
+    MatButtonModule,
+    MatSortModule,
+  ],
+
   templateUrl: './liste-degradations.component.html',
   styleUrl: './liste-degradations.component.scss',
 })
@@ -54,6 +80,16 @@ export class ListeDegradationsComponent implements OnInit {
   filteredDegradations: Degradation[] = [];
   searchTerm: string = '';
   currentFilter: string = 'Tous';
+  displayedColumns: string[] = [
+    'id',
+    'zone',
+    'localite',
+    'typeAnomalie',
+    'priorite',
+    'dateCreation',
+    'statut',
+    'actions',
+  ];
 
   constructor(private router: Router) {}
 
@@ -63,13 +99,10 @@ export class ListeDegradationsComponent implements OnInit {
 
   filterByStatus(status: string): void {
     this.currentFilter = status;
-    if (status === 'Tous') {
-      this.filteredDegradations = [...this.degradations];
-    } else {
-      this.filteredDegradations = this.degradations.filter(
-        (d) => d.statut === status
-      );
-    }
+    this.filteredDegradations =
+      status === 'Tous'
+        ? [...this.degradations]
+        : this.degradations.filter((d) => d.statut === status);
   }
 
   searchDegradations(): void {
@@ -91,16 +124,34 @@ export class ListeDegradationsComponent implements OnInit {
     this.router.navigate(['/edit-degradation', id]);
   }
 
-  getStatusClass(status: string): string {
-    switch (status) {
+  getStatusColor(statut: string): string {
+    switch (statut) {
       case 'Nouveau':
-        return 'badge bg-primary';
+        return 'primary';
       case 'En cours':
-        return 'badge bg-warning text-dark';
+        return 'accent';
       case 'Résolu':
-        return 'badge bg-success';
+        return 'warn';
       default:
-        return 'badge bg-secondary';
+        return '';
     }
   }
+
+  getPriorityColor(priorite: string): string {
+    const level = priorite.split(' - ')[0];
+    switch (level) {
+      case 'P0':
+        return 'warn';
+      case 'P1':
+        return 'accent';
+      case 'P2':
+        return 'primary';
+      default:
+        return '';
+    }
+  }
+
+  // Ajout de la gestion de la pagination
+  pageSizeOptions = [5, 10, 20];
+  pageSize = 5;
 }

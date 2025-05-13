@@ -1,239 +1,186 @@
-/* Style global */
+/* Nouveau CSS amélioré */
 .container {
-    max-width: 600px;
+    max-width: 800px;
     margin: 2rem auto;
     padding: 0 15px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    min-height: 50vh;
-  }
-  
-  h2 {
-    color: #FF7900;
+    font-family: 'Roboto', sans-serif;
+    color: #2d3748;
+}
+
+h2 {
+    color: #2d3748;
     font-weight: 600;
-    margin-bottom: 1.5rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 2px solid #FF7900;
-  }
-  
-  /* Couleurs */
-  .bg-orange {
-    background-color: #FF7900;
-    border-color: #FF7900;
-  }
-  
-  .btn-orange {
-    background-color: #FF7900;
-    color: white;
-    border: none;
-    padding: 0.5rem 1.5rem;
-    transition: all 0.3s ease;
-    
-    &:hover {
-      background-color: #e66a00;
-      transform: translateY(-1px);
-      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    }
-    
-    &:disabled {
-      background-color: #ffa154;
-      cursor: not-allowed;
-    }
-  }
-  
-  .btn-outline-secondary {
-    border: 1px solid #ced4da;
-    transition: all 0.3s ease;
-    
-    
-    &:hover {
-      background-color: #f8f9fa;
-    }
-  }
-  
-  /* Cartes */
-  .card {
-    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-    border: none;
-    border-radius: 8px;
-    overflow: hidden;
-    margin-bottom: 1.5rem;
-    transition: transform 0.3s ease;
-    
-    &:hover {
-      transform: translateY(-3px);
-    }
-    
-    .card-header {
-      font-weight: 600;
-      font-size: 1.1rem;
-      padding: 1rem 1.5rem;
-    }
-    
-    .card-body {
-      padding: 1.5rem;
-    }
-  }
-  
-  /* Formulaires */
-  .form-label {
-    font-weight: 500;
-    color: #495057;
-    margin-bottom: 0.5rem;
-    display: block;
-  }
-  
-  .form-control, .form-select {
-    width: 98%;
-    padding: 0.75rem 1rem;
-    border: 1px solid #ced4da;
-    border-radius: 6px;
-    transition: border-color 0.3s, box-shadow 0.3s;
-    
-    &:focus {
-      border-color: #FF7900;
-      box-shadow: 0 0 0 0.25rem rgba(255, 121, 0, 0.25);
-      outline: none;
-    }
-  }
-  
-  textarea.form-control {
-    width: 500px;
-    min-height: 100px;
-   
-  }
-  
-  /* Radio buttons */
-  .form-check {
-    margin-top: 0.8rem;
-    
-    .form-check-input {
-      margin-top: 0.2rem;
-      
-      &:checked {
-        background-color: #FF7900;
-        border-color: #FF7900;
-      }
-      
-      &:focus {
-        box-shadow: 0 0 0 0.25rem rgba(255, 121, 0, 0.25);
-      }
-    }
-    
-    .form-check-label {
-      margin-left: 0.5rem;
-    }
-  }
-  
-  /* Layout */
-  .row {
-    margin-bottom: 1rem;
-  }
-  
-  .mb-3 {
-    margin-bottom: 1.5rem !important;
-  }
-  
-  .text-center {
-    margin-top: 2rem;
-  }
-  
-  /* Champs obligatoires */
-  .required-field::after {
-    content: " *";
-    color: #dc3545;
-  }
-  
-  /* Validation */
-  .ng-invalid.ng-touched {
-    border-color: #dc3545;
-    
-    &:focus {
-      box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25);
-    }
-  }
-  
-  /* Icônes */
-  .fas {
-    margin-right: 0.5rem;
-  }
-  
-  /* Responsive */
-  @media (max-width: 768px) {
-    .card-body {
-      padding: 1rem;
-    }
-    
-    .btn {
-      width: 100%;
-      margin-bottom: 0.5rem;
-    }
-    
-    .text-center {
-      display: flex;
-      flex-direction: column;
-    }
-  }
- /* Styles pour la barre de progression améliorée */
+    margin-bottom: 2rem;
+    text-align: center;
+    position: relative;
+    padding-bottom: 1rem;
+}
+
+h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: #FF7900;
+}
+
+/* Barre de progression améliorée */
 .progress-container {
-  position: relative;
-  padding-top: 10px;
+    position: relative;
+    margin: 2rem 0;
+}
+
+.progress {
+    height: 8px;
+    background: #e2e8f0;
+    border-radius: 4px;
+    overflow: visible;
+}
+
+.progress-bar {
+    background: #FF7900;
+    transition: width 0.4s ease;
+    position: relative;
+}
+
+.progress-bar::after {
+    content: '';
+    position: absolute;
+    right: -8px;
+    top: -3px;
+    width: 14px;
+    height: 14px;
+    background: #FF7900;
+    border-radius: 50%;
 }
 
 .progress-steps {
-  position: relative;
-  display: inline;
-  display: flex;
-  justify-content: space-between;
-
-  
+    position: relative;
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: space-between;
 }
 
+
 .step {
-  text-align: center;
-  position: relative;
-  z-index: 1;
-  
+    position: relative;
+    z-index: 1;
 }
 
 .step-circle {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background-color: #e0e0e0;
-  color: #888;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto;
-  font-weight: bold;
-  border: 2px solid #e0e0e0;
+    width: 40px;
+    height: 40px;
+    border: 3px solid #e2e8f0;
+    background: white;
+    color: #a0aec0;
+    font-weight: 600;
+    transition: all 0.3s ease;
 }
 
 .step-circle.active {
-  background-color: #FF7900;
-  color: white;
-  border-color: #FF7900;
+    border-color: #FF7900;
+    background: #FF7900;
+    color: white;
 }
 
 .step-label {
-  font-size: 14px;
-  color: #000000;
-  font-weight: 500;
+    margin-top: 0.5rem;
+    color: #718096;
+    font-size: 0.9rem;
 }
 
-.step-label.active {
-  color: #FF7900;
-  font-weight: bold;
+/* Cartes modernisées */
+.card {
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+    margin-bottom: 1.5rem;
+    background: white;
 }
 
-/* Barre de progression sous les cercles */
-.progress-steps::before {
-  content: '';
-  position: absolute;
-  top: 15px;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background-color: #e0e0e0;
-  z-index: 0;
+.card-header {
+    background: #f7fafc;
+    border-bottom: 1px solid #e2e8f0;
+    padding: 1.2rem 1.5rem;
+    font-weight: 600;
+    color: #2d3748;
+}
+
+.card-body {
+    padding: 1.5rem;
+    background: #f7fafc;
+}
+
+/* Champs formulaire */
+.form-label {
+    font-weight: 500;
+    color: #4a5568;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.form-control, .form-select {
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: #FF7900;
+    box-shadow: 0 0 0 3px rgba(255, 121, 0, 0.1);
+}
+
+textarea.form-control {
+    min-height: 120px;
+    resize: vertical;
+}
+
+/* Boutons */
+.btn-orange {
+    background: #FF7900;
+    color: white;
+    padding: 0.75rem 1.75rem;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-orange:hover {
+    background: #e56b00;
+    transform: translateY(-1px);
+}
+
+.btn-outline-secondary {
+    border: 1px solid #e2e8f0;
+    color: #4a5568;
+    transition: all 0.2s ease;
+}
+
+.btn-outline-secondary:hover {
+    background: #f7fafc;
+    border-color: #cbd5e0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .card-body {
+        padding: 1rem;
+    }
+
+    .form-control, .form-select {
+        width: 100%;
+    }
+
+    .btn {
+        width: 100%;
+        margin-bottom: 0.75rem;
+    }
 }
